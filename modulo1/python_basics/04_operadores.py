@@ -29,3 +29,16 @@ print("n//=2", n)
 n**=2
 print("n**=2", n)
 n//=2
+print("OPERADORES LOGICOS")
+print("=========================")
+n=10
+m=20
+print("n>m", n>m)
+print("n<m", n<m)
+print("n==m", n==m)
+print("n!=m", n!=m)
+print("n>=m", n>=m)
+print("n<=m", n<=m)
+print("OPERADORES DE COMPARACION")
+print("=========================")
+n 
