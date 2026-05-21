@@ -7,3 +7,5 @@ from .user     import (
     ChangePasswordSerializer,
 )
 from .category import CategorySerializer
+from .product  import ProductSerializer, ProductSummarySerializer
+from .order    import OrderItemSerializer, OrderSerializer, AddItemSerializer
