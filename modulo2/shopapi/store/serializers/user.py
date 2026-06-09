@@ -93,10 +93,11 @@ class UserProfileSerializer(serializers.ModelSerializer):
         return value
 
     def update(self, instance, validated_data):
+        from store.models.profile import UserProfile
         profile_data = validated_data.pop('profile', {})
         instance     = super().update(instance, validated_data)
         if profile_data:
-            profile = instance.profile
+            profile, _ = UserProfile.objects.get_or_create(user=instance)
             for attr, value in profile_data.items():
                 setattr(profile, attr, value)
             profile.save()
