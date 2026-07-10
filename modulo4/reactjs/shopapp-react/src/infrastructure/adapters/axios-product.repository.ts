@@ -6,6 +6,8 @@ import type { Product } from '@/domain/entities/product.entity'
 import type { PaginatedResult } from '@/domain/entities/paginated-result.entity'
 import type { ProductFilters } from '@/domain/entities/product-filters.entity'
 
+import type { ProductStats } from '@/domain/entities/product-stats.entity'
+
 export class AxiosProductRepository implements ProductRepository {
     async getProducts(
         filters?: Partial<ProductFilters>,
@@ -34,6 +36,15 @@ export class AxiosProductRepository implements ProductRepository {
     async getProduct(id: number): Promise<Product> {
         try {
             const { data } = await apiClient.get<Product>(`/products/${id}/`)
+            return data
+        } catch (err) {
+            throw parseApiError(err)
+        }
+    }
+
+    async getStats(): Promise<ProductStats> {
+        try {
+            const { data } = await apiClient.get<ProductStats>('/products/stats/')
             return data
         } catch (err) {
             throw parseApiError(err)
