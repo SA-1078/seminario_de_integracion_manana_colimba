@@ -14,6 +14,8 @@ import {
 } from '@/presentation/components/ui/dropdown-menu'
 import { Avatar, AvatarFallback } from '@/presentation/components/ui/avatar'
 import { Separator } from '@/presentation/components/ui/separator'
+import { useCartStore } from '@/presentation/store/cart.store'
+import { CartDrawer } from '@/presentation/components/CartDrawer'
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -36,8 +38,8 @@ export default function AppShell() {
     const navigate = useNavigate()
     const { user, logout } = useAuthStore()
 
-    // En módulos siguientes esto vendrá del CartStore
-    const cartItemCount = 0
+    const cartItemCount = useCartStore((s) => s.itemCount())
+    const openCart = useCartStore((s) => s.openCart)
 
     async function handleLogout() {
         await logout()
@@ -92,21 +94,19 @@ export default function AppShell() {
                             <Button
                                 variant="ghost"
                                 size="icon"
-                                asChild
                                 className="relative"
                                 aria-label="Carrito de compras"
+                                onClick={openCart}
                             >
-                                <Link to="/cart">
-                                    <ShoppingCart className="h-5 w-5" />
-                                    {cartItemCount > 0 && (
-                                        <Badge
-                                            variant="destructive"
-                                            className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full p-0 text-xs"
-                                        >
-                                            {cartItemCount > 99 ? '99+' : cartItemCount}
-                                        </Badge>
-                                    )}
-                                </Link>
+                                <ShoppingCart className="h-5 w-5" />
+                                {cartItemCount > 0 && (
+                                    <Badge
+                                        variant="destructive"
+                                        className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full p-0 text-xs"
+                                    >
+                                        {cartItemCount > 99 ? '99+' : cartItemCount}
+                                    </Badge>
+                                )}
                             </Button>
                         )}
 
@@ -198,6 +198,9 @@ export default function AppShell() {
             <footer className="border-t py-4 text-center text-sm text-muted-foreground">
                 ShopApp &copy; {new Date().getFullYear()}
             </footer>
+
+            {/* Drawer de acceso rápido al carrito */}
+            <CartDrawer />
         </div>
     )
 }
